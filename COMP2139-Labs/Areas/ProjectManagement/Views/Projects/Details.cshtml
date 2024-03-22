@@ -1,0 +1,77 @@
+﻿@model Project
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ProjectId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+<div id="projectComments">
+    <h3>Comments</h3>
+    <div id="commentsList" class="comments-container">
+        <!-- Comments will be loaded here using AJAX-->
+    </div>
+    <form id="addCommentForm" class="mt-3">
+        <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+        <div class="form-group">
+            <textarea name="Content" class="form-control" placeholder="Add a comment..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Post Comment</button>
+    </form>
+</div>
+@section Scripts {
+    <script src="~/js/projectComments.js"></script>
+    <script>
+        $(document).ready(function () {
+            initializeProjectComments(@Model.ProjectId);
+        })
+    </script>
+}

@@ -1,0 +1,71 @@
+﻿@model List<Project> // this razor page has access to the list from the controller
+
+@{
+    // Razor Block
+    // like <title></title>
+    ViewData["Title"] = "Projects";
+
+
+    // Lab 5 - Search Parameters
+    bool searchPerformed = ViewData["SearchPerformed"] as bool? ?? false;
+    string searchString = ViewData["SearchString"] as string;
+}
+
+<h2>Projects</h2>
+
+@if (Model.Any()) // If there's any projects to display
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <td>Summary</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var project in Model) // Model is like List<Project> at the top
+            {
+                <tr>
+                    <td>@project.ProjectId</td>
+                    <td>@Html.DisplayFor(modelItem => project.Name)</td> <!-- Uses ProjectName.cshtml -->
+                    <td>@Html.DisplayFor(modelItem => project.Description)</td> <!-- Uses ProjectDescription.cshtml -->
+                    <!-- Lab 6 call to ProjectSummaryViewComponent -->
+                    <td>
+                        @await Component.InvokeAsync("ProjectSummary", new { projectId = project.ProjectId })
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@project.ProjectId" class="btn btn-danger">Delete</a>
+
+                        <!-- Link to view tasks for the project -->
+                        <a asp-controller="Tasks" asp-action="Index" asp-route-projectId="@project.ProjectId" class="btn btn-warning">View Tasks</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    /*
+    <a class="text-dark btn btn-primary" asp-area="" asp-controller="Project" asp-action="Create">Create</a>
+    <a class="text-dark btn btn-primary" asp-area="" asp-controller="Project" asp-action="Details">Details</a>
+    */
+}
+else
+{
+    if (searchPerformed)
+    {
+        <p>No projects name with name "@searchString"</p>
+    }
+    else
+    {
+        <p>No projects available</p>
+    }
+}
+
+<p>
+    <a class="text-dark btn btn-primary" asp-area="ProjectManagement" asp-controller="Projects" asp-action="Create">Create Project</a>
+</p>

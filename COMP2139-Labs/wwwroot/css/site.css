@@ -1,22 +1,42 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
+.navbar {
+    text-align: right;
+    background-color: #C06C84;
+}
+
+    /* Lab 5 - Custom Dropdown Styling */
+    .navbar .dropdown-toggle {
+        color: black;
+        background: linear-gradient(to top, #F67280, #F8B195); /* Example color */
+        border-color: #F67280; /* Example border */
+        transition: background 100s ease, color 5s ease;
+    }
+
+        /* Change color on hover */
+        .navbar .dropdown-toggle:hover {
+            /*color: red;*/
+            background: linear-gradient(to bottom, #F67280, #F8B195);
+            transition: background 5s ease;
+        }

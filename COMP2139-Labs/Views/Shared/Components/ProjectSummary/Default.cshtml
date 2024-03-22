@@ -1,0 +1,21 @@
+﻿@model COMP2139_Labs.Areas.ProjectManagement.Models.Project
+
+@{
+    // This view will display basic information about a project and list its tasks.
+}
+
+<div class="project-summary">
+    <p><b>@Model.Name</b></p>
+    <p><b>@Model.Description</b></p>
+    <p><b>Start Date: </b>@Model.StartDate.ToShortDateString()</p>
+    <p><b>End Date: </b>@Model.EndDate.ToShortDateString()</p>
+    <p><b>Status: </b>@Model.Status</p>
+
+    <p><b>Tasks</b></p>
+    <ul>
+        @foreach (var task in Model.Tasks)
+        {
+            <li>@task.Title - @task.Description</li>
+        }
+    </ul>
+</div>
