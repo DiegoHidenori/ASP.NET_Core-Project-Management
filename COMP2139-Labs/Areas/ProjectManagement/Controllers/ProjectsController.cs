@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using COMP2139_Labs.Areas.ProjectManagement.Models;
 using COMP2139_Labs.Data;
+using Microsoft.AspNetCore.Authorization;
+using COMP2139_Labs.Services;
 
 
 namespace COMP2139_Labs.Areas.ProjectManagement.Controllers
@@ -18,6 +20,8 @@ namespace COMP2139_Labs.Areas.ProjectManagement.Controllers
         //      which creates session w db and lets you
         //      create queries
         private readonly AppDbContext _db;
+        //private readonly ILogger<ProjectsController> _logger; // Week 14
+        //private readonly ISessionService _sessionService; // Week 14
 
 
         /* March 13, 2024
@@ -28,6 +32,8 @@ namespace COMP2139_Labs.Areas.ProjectManagement.Controllers
         public ProjectsController(AppDbContext db)
         {
             _db = db;
+            //_logger = logger; // Week 14
+            //_sessionService = sessionService; // Week 14
         }
 
 
@@ -37,12 +43,43 @@ namespace COMP2139_Labs.Areas.ProjectManagement.Controllers
          */
         // actions are synonymous to methods inside controllers
         // This index action calls on the index file inside the project folder
+
+        // [Authorize] // ----------------- Week 14 ---------------------
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var projects = await _db.Projects.ToListAsync();
-            return View(projects);
+            //_logger.LogInformation("Calling Project Index() action");
 
+            try
+            {
+                var projects = await _db.Projects.ToListAsync();
+                // _logger.LogInformation("Hello testing inside the try block");
+
+                //var value = _sessionService.GetSessionData<int?>("Visited") ?? 0;
+
+                //ViewBag.mysession = value + 1;
+                return View(projects);
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex.Message);
+                return View(null);
+            }
+        }
+
+        /*
+         * GET: Projects/Details/5
+         * The ":int" constraint ensures id is an integer
+         */
+        [HttpGet("Details/{id:int}")]
+        public async Task<IActionResult> Details(int id)
+        {
+            var project = await _db.Projects.FirstOrDefaultAsync(p => p.ProjectId == id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+            return View(project);
         }
 
 
@@ -183,22 +220,6 @@ namespace COMP2139_Labs.Areas.ProjectManagement.Controllers
             ViewData["SearchPerformed"] = searchPerformed;
             ViewData["SearchString"] = searchString;
             return View("Index", projects); // reuse the Index view to display results
-        }
-
-
-        /*
-         * GET: Projects/Details/5
-         * The ":int" constraint ensures id is an integer
-         */
-        [HttpGet("Details/{id:int}")]
-        public async Task<IActionResult> Details(int id)
-        {
-            var project = await _db.Projects.FirstOrDefaultAsync(p => p.ProjectId == id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-            return View(project);
         }
     }
 }

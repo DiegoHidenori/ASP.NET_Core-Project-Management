@@ -1,6 +1,8 @@
 ﻿@using COMP2139_Labs.Areas.ProjectManagement.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -38,19 +40,29 @@
                 </li>
 
 
-                <!-- Lab 8 -->
+                <!-- Lab 10 -->
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark"
-                           asp-area="Identity"
-                           asp-page="/Account/Manage/Index" title="Manage your account"><i class="fa fa-user-circle"></i> Profile</a>
+                    <li class="nav-item d-flex align-items-center">
+                        <!-- -->
+                        @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
+                        {
+                            <img style="width: 40px; height:40px; object-fit:cover; border-radius:20px; margin-right: 2px;"
+                                 src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture ))" />
+                        }
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
                     </li>
 
                     <li class="nav-item">
                         <form asp-area="Identity" asp-page="/Account/Logout" method="post">
                             <button type="submit" class="nav-link btn btn-link text-dark" style="cursor:pointer">Logout</button>
                         </form>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="/" asp-controller="/RoleManager">Role Manager</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="/" asp-controller="/UserRoles">User Roles</a>
                     </li>
                 }
                 else

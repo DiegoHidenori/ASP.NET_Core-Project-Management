@@ -188,14 +188,14 @@ namespace COMP2139_Labs.Areas.ProjectManagement.Controllers
         // Lab 5 - Search ProjectTasks
         // GET: Tasks/Search/{projectId}/{searchString?}
         // Tasks/Search?projectId=1&searchString=Task1
-        [HttpGet("Search/{searchString?}")]
+        [HttpGet("Search/{projectId:int}/{searchString?}")]
         public async Task<IActionResult> Search(int projectId, string searchString)
         {
             // var tasksQuery = _db.ProjectTasks.Where(t => t.ProjectId == projectId);
             var tasksQuery = _db.ProjectTasks.AsQueryable();
-            bool searchPerformed = !string.IsNullOrEmpty(searchString); // me
+            // bool searchPerformed = !string.IsNullOrEmpty(searchString); // me
 
-            if (searchPerformed)
+            if (!string.IsNullOrEmpty(searchString))
             {
                 tasksQuery = tasksQuery.Where(t => t.Title.Contains(searchString) || t.Description.Contains(searchString));
             }

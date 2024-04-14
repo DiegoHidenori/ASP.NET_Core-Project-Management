@@ -24,6 +24,7 @@ namespace COMP2139_Labs.Areas.ProjectManagement.Models
 
         [Display(Name = "Project")]
         public int ProjectId { get; set; }
+
         public Project? Project { get; set; }
     }
 }
