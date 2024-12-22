@@ -3,4 +3,4 @@
 ## Screenshots
 
 **Main Page:**
-![Main Page](./Images/Main_Screen.png)
+![Main Page](./COMP2139-Labs/Images/Main_Screen.png)
