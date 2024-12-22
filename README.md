@@ -1,4 +1,6 @@
 # George Brown College, Winter 2024, COMP2139-Solution
 
 ## Screenshots
-![Main Page](./Images/Main Screen.png)
+
+**Main Page:**
+![Main Page](./Images/Main_Screen.png)
